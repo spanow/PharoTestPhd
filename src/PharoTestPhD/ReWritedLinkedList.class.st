@@ -72,11 +72,20 @@ ReWritedLinkedList >> addLast:aLink [
 	^ link
 ]
 
+{ #category : #requirements }
+ReWritedLinkedList >> empty [
+ ^ self size==0
+	
+]
+
 { #category : #comparing }
 ReWritedLinkedList >> equalsLinkedList: linkedList [
 
-	| currentSelf currentParam boolean |
+	| currentSelf currentParam boolean size|
 	
+	size := self size = linkedList size.
+	size
+	ifFalse: [ ^false ].
 	
 	currentSelf := self firstElem.
 	currentParam := linkedList firstElem  .
@@ -109,4 +118,73 @@ ReWritedLinkedList >> lastElem [
 { #category : #accessing }
 ReWritedLinkedList >> lastElem: element [
 	lastElem:= element 
+]
+
+{ #category : #comparing }
+ReWritedLinkedList >> print [
+	| currentSelf collection|
+
+	
+	
+	self empty
+	ifTrue: ['The linked list is empty' asMorph openInWindow]. 
+	
+	currentSelf := self firstElem.
+	collection := OrderedCollection new.
+
+	[ currentSelf isNotNil] whileTrue: [ collection add: currentSelf elem . 
+													currentSelf := currentSelf nextReWritedLink.].
+												
+	collection asMorph openInWindow.
+]
+
+{ #category : #comparing }
+ReWritedLinkedList >> printAsAnOrderedCollection [
+	| currentSelf collection|
+
+	
+	
+	self empty
+	ifTrue: ['The linked list is empty' asMorph openInWindow]. 
+	
+	currentSelf := self firstElem.
+	collection := OrderedCollection new.
+
+	[ currentSelf isNotNil] whileTrue: [ collection add: currentSelf elem . 
+													currentSelf := currentSelf nextReWritedLink.].
+												
+	collection asMorph openInWindow.
+]
+
+{ #category : #comparing }
+ReWritedLinkedList >> remove: element [
+	| currentSelf linkedList|
+	
+	linkedList:= ReWritedLinkedList new.
+
+	currentSelf := self firstElem.
+	[ currentSelf isNotNil] whileTrue:[ 
+													currentSelf elem = element
+													ifTrue: [ currentSelf := currentSelf nextReWritedLink.
+														linkedList add:currentSelf.]
+													ifFalse: [  linkedList add:currentSelf.].
+													currentSelf isNotNil 
+													ifTrue: [ currentSelf := currentSelf nextReWritedLink. ]
+													].
+	
+	linkedList print
+]
+
+{ #category : #comparing }
+ReWritedLinkedList >> size [
+
+	| currentSelf size|
+	
+	size := 0.
+	currentSelf := self firstElem.
+	
+	[ currentSelf isNotNil] whileTrue: [ size := size +1.
+													currentSelf := currentSelf nextReWritedLink.].
+	
+	^size.
 ]
